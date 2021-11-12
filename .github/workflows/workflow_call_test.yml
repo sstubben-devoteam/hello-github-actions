@@ -1,20 +1,22 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Test workflow_call
-
+name: Manually triggered workflow
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
-      username:
-        description: 'A username passed from the caller workflow'
-        default: 'john-doe'
+      name:
+        description: 'Person to greet'
+        required: true
+        default: 'Mona the Octocat'
+      home:
+        description: 'location'
         required: false
-        type: string
-  
-jobs:
-  print-username:
-    runs-on: ubuntu-latest
+        default: 'The Octoverse'
 
+jobs:
+  say_hello:
+    runs-on: ubuntu-latest
     steps:
-      - name: Print the input name to STDOUT
-        run: echo The username is ${{ inputs.username }}
+      - run: |
+          echo "Hello ${{ github.event.inputs.name }}!"
+          echo "- in ${{ github.event.inputs.home }}!"
